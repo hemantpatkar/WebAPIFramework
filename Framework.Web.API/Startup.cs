@@ -1,4 +1,5 @@
 using Base.DB;
+using Base.Web;
 using Framework.Configuration;
 using Framework.Exceptions;
 using Framework.Web.API.Helpers;
@@ -17,7 +18,7 @@ using System.Threading.Tasks;
 
 namespace Framework.Web.API
 {
-    public class Startup
+    public class Startup : BaseStartup
     {
         private ILogger<Startup> logger = null;
         public Startup(IWebHostEnvironment environment, IConfiguration configuration) : base()
@@ -26,9 +27,9 @@ namespace Framework.Web.API
             this.Environment = environment;
         }
 
-        public IConfiguration Configuration { get; }
+        //public IConfiguration Configuration { get; }
 
-        public IWebHostEnvironment Environment { get; }
+        //public IWebHostEnvironment Environment { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -61,9 +62,14 @@ namespace Framework.Web.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, ILogger<Startup> logger)
         {
-            if (env.IsDevelopment())
+            this.logger = logger;
+
+            this.LogAllEnvironmentVariables(this.logger);
+            this.LogAllConfiguration(this.Configuration, this.logger);
+
+            if (this.Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
@@ -95,6 +101,7 @@ namespace Framework.Web.API
         {
             services.AddLogging();
 
+            services.Configure<BasicAuth>(this.Configuration.GetSection(nameof(BasicAuth)));
             services.Configure<DatabaseOptions>(this.Configuration.GetSection(nameof(DatabaseOptions)));
         }
 

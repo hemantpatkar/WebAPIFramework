@@ -1,4 +1,4 @@
-﻿using Framework.DomainModels.Logging;
+﻿using Framework.DomainModels.Master;
 using Microsoft.EntityFrameworkCore;
 
 namespace Framework.Repositories
@@ -16,7 +16,7 @@ namespace Framework.Repositories
         {
         }
 
-        public DbSet<LogTable> LogTable { get; set; }
+        public DbSet<CountryMaster> CountryMaster { get; set; }
 
     }
 }

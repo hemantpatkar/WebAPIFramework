@@ -1,14 +1,13 @@
 ﻿using Base.DomainModels;
+using Base.Services;
+using Framework.DomainModels.Master;
+using Framework.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Base.Services;
-using Framework.Services;
 
 namespace Framework.Web.API.Controllers
 {
@@ -40,26 +39,79 @@ namespace Framework.Web.API.Controllers
             return "Welcome to basic auth api";
         }
 
-        /// <summary>
-        /// Retrieves the employee shortlistings.
-        /// </summary>
-        /// <param name="employeeFilterCriteria">The employee filter criteria.</param>
-        /// <param name="top">The number of records to fetch.</param>
-        /// <param name="skip">The number of records to skip.</param>
-        /// <param name="cancellationToken">The cancellation token.</param>
-        /// <returns>
-        /// An <see cref="ActionResult" /> containing the employee shortlisting or a <see cref="NotFoundResult" /> if the entry is not found.
-        /// </returns>
+
         [HttpPost]
-        //[Authorize]
-        [Route("SearchEmployees")]
+        [Authorize]
+        [Route("insert")]
         [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult> InsertLog([FromQuery] string log, [FromQuery] int top, [FromQuery] int skip, CancellationToken cancellationToken)
+        public async Task<ActionResult> insert([FromQuery] CountryMaster _countryMaster, [FromQuery] CancellationToken cancellationToken)
         {
             ServiceDataResponse<string> serviceResponse = await this.genericService
-                .SearchEmployees(log, top, skip, cancellationToken)
+                .insert(_countryMaster, cancellationToken)
+                .ConfigureAwait(false);
+
+            return Ok(serviceResponse);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("update")]
+        [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult> update([FromQuery] CountryMaster _countryMaster, [FromQuery] CancellationToken cancellationToken)
+        {
+            ServiceDataResponse<string> serviceResponse = await this.genericService
+                .update(_countryMaster, cancellationToken)
+                .ConfigureAwait(false);
+
+            return Ok(serviceResponse);
+        }
+
+
+        [HttpPost]
+        [Authorize]
+        [Route("delete")]
+        [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult> InsertLog([FromQuery] int id, [FromQuery] CancellationToken cancellationToken)
+        {
+            ServiceDataResponse<string> serviceResponse = await this.genericService
+                .delete(id, cancellationToken)
+                .ConfigureAwait(false);
+
+            return Ok(serviceResponse);
+        }
+
+        [HttpGet]
+        [Authorize]
+        [Route("select")]
+        [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult> select([FromQuery] int id, [FromQuery] CancellationToken cancellationToken)
+        {
+
+            ServiceDataResponse<CountryMaster> serviceResponse = await this.genericService
+                .Search(id, cancellationToken)
+                .ConfigureAwait(false);
+
+            return Ok(serviceResponse);
+        }
+
+        [HttpPost]
+        [Authorize]
+        [Route("selectlist")]
+        [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult> delete([FromQuery] string searchcriteria, [FromQuery] int top, [FromQuery] int skip, CancellationToken cancellationToken)
+        {
+            ServiceDataResponse<List<CountryMaster>> serviceResponse = await this.genericService
+                .SearchList(searchcriteria, top, skip, cancellationToken)
                 .ConfigureAwait(false);
 
             return Ok(serviceResponse);

@@ -1,4 +1,4 @@
-﻿using Framework.DomainModels.Logging;
+﻿using Framework.DomainModels.Master;
 using Microsoft.EntityFrameworkCore;
 
 namespace Framework.Repositories
@@ -11,6 +11,6 @@ namespace Framework.Repositories
         /// <value>
         /// The security Users.
         /// </value>
-        DbSet<LogTable> LogTable { get; }
+        DbSet<CountryMaster> CountryMaster { get; }
     }
 }

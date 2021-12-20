@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Framework.Configuration;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
@@ -14,15 +15,18 @@ namespace Framework.Web.API.Helpers
 {
     public class BasicAuthenticationHandler : AuthenticationHandler<AuthenticationSchemeOptions>
     {
+        private readonly BasicAuth _basicAuth;
         public BasicAuthenticationHandler(
            IOptionsMonitor<AuthenticationSchemeOptions> options,
            ILoggerFactory logger,
            UrlEncoder encoder,
+           BasicAuth basicAuth,
            ISystemClock clock)
            //IUserService userService)
            : base(options, logger, encoder, clock)
         {
             //_userService = userService;
+            _basicAuth = basicAuth;
         }
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
@@ -42,7 +46,7 @@ namespace Framework.Web.API.Helpers
                 var credentials = Encoding.UTF8.GetString(credentialBytes).Split(new[] { ':' }, 2);
                 var username = credentials[0];
                 var password = credentials[1];
-                if (username == "Admin" && password == "Password")
+                if (username == _basicAuth.username && password == _basicAuth.password)
                 {
 
                 }
