@@ -42,18 +42,34 @@ namespace Framework.Web.API.Controllers
             return "Welcome to basic auth api";
         }
 
-
         [HttpPost("UploadFile")]
         public async Task<string> UploadFile([FromForm] IFormFile file)
         {
-            string fName = file.FileName;
-            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Images/" + file.FileName);
-            using (var stream = new FileStream(path, FileMode.Create))
+            if (file != null && file.Length > 0)
             {
-                await file.CopyToAsync(stream);
+                string fName = file.FileName;
+                int MaxContentLength = 1024 * 1024 * 1; //Size = 1 MB  
+                IList<string> AllowedFileExtensions = new List<string> { ".jpg", ".gif", ".png" };
+                var ext = file.FileName.Substring(file.FileName.LastIndexOf('.'));
+                var extension = ext.ToLower();
+                if (!AllowedFileExtensions.Contains(extension))
+                {
+                    return string.Format("Please Upload image of type .jpg,.gif,.png.");
+                }
+                else if (file.Length > MaxContentLength)
+                {
+                    return string.Format("Please Upload a file upto 1 mb.");
+                }
+                else
+                {
+                    string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "/" + file.FileName);
+                    using (var stream = new FileStream(path, FileMode.Create))
+                    {
+                        await file.CopyToAsync(stream);
+                    }
+                }
             }
             return file.FileName;
         }
-
     }
 }
