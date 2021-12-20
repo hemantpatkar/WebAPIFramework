@@ -6,7 +6,6 @@ namespace Framework.Configuration
 {
     public class BasicAuth
     {
-        
         public string username { get; set; }
         public string password { get; set; }
     }

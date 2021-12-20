@@ -20,13 +20,13 @@ namespace Framework.Web.API.Helpers
            IOptionsMonitor<AuthenticationSchemeOptions> options,
            ILoggerFactory logger,
            UrlEncoder encoder,
-           BasicAuth basicAuth,
+           IOptionsMonitor<BasicAuth> basicAuth,
            ISystemClock clock)
            //IUserService userService)
            : base(options, logger, encoder, clock)
         {
             //_userService = userService;
-            _basicAuth = basicAuth;
+            this._basicAuth = basicAuth.CurrentValue;
         }
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
