@@ -1,5 +1,6 @@
 ﻿using Framework.Repositories;
 using Framework.Services;
+using Framework.Services.Logging;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Framework
@@ -12,11 +13,9 @@ namespace Framework
         /// <param name="services">The services.</param>
         public void ConfigureServices(IServiceCollection services)
         {
-           
-
             services.AddScoped<IGenericService, GenericService>();
             services.AddScoped<IGenericRepository, GenericRepository>();
-
+            services.AddSingleton<ILogWriter, LogWriter>();
         }
     }
 }

@@ -14,6 +14,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Threading.Tasks;
 
 namespace Framework.Web.API
@@ -58,7 +60,10 @@ namespace Framework.Web.API
             services.AddAuthentication("BasicAuthentication")
                 .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
 
-
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+            services.AddMvc()
+                .AddViewLocalization(Microsoft.AspNetCore.Mvc.Razor.LanguageViewLocationExpanderFormat.Suffix)
+                .AddDataAnnotationsLocalization();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -95,6 +100,14 @@ namespace Framework.Web.API
                     return Task.CompletedTask;
                 });
             });
+
+            var cultures = new List<CultureInfo> { new CultureInfo("en"), new CultureInfo("fr") };
+            app.UseRequestLocalization(options =>
+            {
+                options.DefaultRequestCulture = new Microsoft.AspNetCore.Localization.RequestCulture("en");
+                options.SupportedCultures = cultures;
+                options.SupportedUICultures = cultures;
+            });
         }
 
         private void SetupConfigurationDI(IServiceCollection services)
@@ -103,6 +116,8 @@ namespace Framework.Web.API
 
             services.Configure<BasicAuth>(this.Configuration.GetSection(nameof(BasicAuth)));
             services.Configure<DatabaseOptions>(this.Configuration.GetSection(nameof(DatabaseOptions)));
+            services.Configure<AppConfiguration>(this.Configuration.GetSection(nameof(AppConfiguration)));
+
         }
 
 

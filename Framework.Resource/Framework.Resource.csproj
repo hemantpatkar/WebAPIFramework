@@ -5,6 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Update="HomeController.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>HomeController.resx</DependentUpon>
+    </Compile>
     <Compile Update="Login.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
@@ -13,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="HomeController.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>HomeController.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Update="Login.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Login.Designer.cs</LastGenOutput>

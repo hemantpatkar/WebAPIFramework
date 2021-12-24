@@ -1,17 +1,13 @@
 ﻿using Base.DomainModels;
 using Framework.Services;
-using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System;
-using System.Linq;
-using System.Web;
-using Microsoft.AspNetCore.Http;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace Framework.Web.API.Controllers
 {
@@ -20,25 +16,32 @@ namespace Framework.Web.API.Controllers
     public class HomeController : Controller
     {
         private readonly IGenericService genericService;
+        private readonly IStringLocalizer<HomeController> _localizer;
+        private readonly ILogWriter _logWriter;
 
-        public HomeController(IGenericService genericService)
+        public HomeController(IGenericService genericService, IStringLocalizer<HomeController> localizer, ILogWriter logWriter)
         {
             this.genericService = genericService;
+            _localizer = localizer;
+            _logWriter = logWriter;
         }
 
         public IActionResult Index()
         {
+
             return View();
         }
 
-
         [HttpGet]
-        [Authorize]
+        //[Authorize]
         [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
         public string Get()
         {
+            _logWriter.Info("Get");
+            _logWriter.Warning("Get");
+            _logWriter.Error("Get");
             return "Welcome to basic auth api";
         }
 
@@ -54,7 +57,7 @@ namespace Framework.Web.API.Controllers
                 var extension = ext.ToLower();
                 if (!AllowedFileExtensions.Contains(extension))
                 {
-                    return string.Format("Please Upload image of type .jpg,.gif,.png.");
+                    return _localizer["jpgerror"];
                 }
                 else if (file.Length > MaxContentLength)
                 {
@@ -71,5 +74,6 @@ namespace Framework.Web.API.Controllers
             }
             return file.FileName;
         }
+
     }
 }
