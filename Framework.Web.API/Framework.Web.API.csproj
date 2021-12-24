@@ -17,9 +17,5 @@
     <ProjectReference Include="..\Framework\Framework.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Logs\" />
-  </ItemGroup>
-
 
 </Project>
