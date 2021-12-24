@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 
 namespace Framework.Web.API.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class CountryController : Controller
     {
         private readonly IGenericService genericService;
@@ -63,7 +65,7 @@ namespace Framework.Web.API.Controllers
         [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult> InsertLog([FromQuery] int id, [FromQuery] CancellationToken cancellationToken)
+        public async Task<ActionResult> delete([FromQuery] int id, [FromQuery] CancellationToken cancellationToken)
         {
             ServiceDataResponse<string> serviceResponse = await this.genericService
                 .delete(id, cancellationToken)
@@ -94,7 +96,7 @@ namespace Framework.Web.API.Controllers
         [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
         [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
-        public async Task<ActionResult> delete([FromQuery] string searchcriteria, [FromQuery] int top, [FromQuery] int skip, CancellationToken cancellationToken)
+        public async Task<ActionResult> selectlist([FromQuery] string searchcriteria, [FromQuery] int top, [FromQuery] int skip, CancellationToken cancellationToken)
         {
             ServiceDataResponse<List<CountryMaster>> serviceResponse = await this.genericService
                 .SearchList(searchcriteria, top, skip, cancellationToken)

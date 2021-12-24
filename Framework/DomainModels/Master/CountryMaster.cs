@@ -13,21 +13,18 @@ namespace Framework.DomainModels.Master
         [Key]
         [Column("ID")]
         public long? ID { get; set; }
-
-        [Key]
+        
         [Column("Code")]
-        public long? Code { get; set; }
+        public string Code { get; set; }
 
         [Column("Name")]
-        public int Name { get; set; }
-
+        public string Name { get; set; }
 
         [Column("CreatedBY")]
         public string CreatedBY { get; set; }
 
-
-        [Column("CreateOn")]
-        public DateTimeOffset? CreateOn { get; set; }
+        [Column("CreatedOn")]
+        public DateTimeOffset? CreatedOn { get; set; }
 
         [Column("UpdatedBY")]
         public string UpdatedBY { get; set; }
@@ -36,7 +33,7 @@ namespace Framework.DomainModels.Master
         public DateTimeOffset? UpdatedOn { get; set; }
 
         [Column("IsActive")]
-        public Int16 IsActive { get; set; }
+        public byte IsActive { get; set; }
 
     }
 }

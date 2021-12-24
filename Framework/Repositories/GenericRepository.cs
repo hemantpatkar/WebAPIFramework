@@ -42,8 +42,9 @@ namespace Framework.Repositories
             try
             {
                 CountryMaster _countrymaster = new CountryMaster();
-                _countrymaster.Code = 12312312;
-                _countrymaster.CreateOn = DateTime.Now;
+                _countrymaster.Code = _countryMaster.Code;
+                _countrymaster.Name = _countryMaster.Name;
+                _countrymaster.CreatedOn = DateTime.Now;
                 _countrymaster.CreatedBY = "2";
                 _countrymaster.IsActive = 1;
                 dbContext.CountryMaster.Add(_countrymaster);
@@ -60,9 +61,15 @@ namespace Framework.Repositories
 
         public async Task<CountryMaster> Search(int id, CancellationToken cancellationToken)
         {
-            CountryMaster _countrymaster = dbContext.CountryMaster.FirstOrDefault(x => x.ID == id);
-            return await Task.FromResult<CountryMaster>(_countrymaster);
-
+            try
+            {
+                CountryMaster _countrymaster = dbContext.CountryMaster.FirstOrDefault(x => x.ID == id);
+                return await Task.FromResult<CountryMaster>(_countrymaster);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
         }
 
         public async Task<List<CountryMaster>> SearchList(string log, int top, int skip, CancellationToken cancellationToken)

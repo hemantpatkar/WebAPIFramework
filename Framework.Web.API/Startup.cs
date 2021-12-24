@@ -117,7 +117,6 @@ namespace Framework.Web.API
             services.Configure<BasicAuth>(this.Configuration.GetSection(nameof(BasicAuth)));
             services.Configure<DatabaseOptions>(this.Configuration.GetSection(nameof(DatabaseOptions)));
             services.Configure<AppConfiguration>(this.Configuration.GetSection(nameof(AppConfiguration)));
-
         }
 
 
