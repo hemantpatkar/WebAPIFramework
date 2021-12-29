@@ -12,5 +12,6 @@ namespace Framework.Repositories
         /// The security Users.
         /// </value>
         DbSet<CountryMaster> CountryMaster { get; }
+        DbSet<StateMaster> stateMasters { get; }
     }
 }

@@ -1,19 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Framework.DomainModels.Master
 {
-
-    [Table("mcountry", Schema = "dbo")]
-    public class CountryMaster
+    [Table("mState", Schema = "dbo")]
+    public class StateMaster
     {
         [Key]
         [Column("ID")]
         public long ID { get; set; }
-        
+
+        [Column("CountryID")]
+        public long CountryID { get; set; }
+
+        [ForeignKey("CountryID")]
+        public virtual CountryMaster CountryMaster { get; set; }
+
         [Column("Code")]
         public string Code { get; set; }
 
@@ -24,7 +27,7 @@ namespace Framework.DomainModels.Master
         public string CreatedBY { get; set; }
 
         [Column("CreatedOn")]
-        public DateTimeOffset CreatedOn { get; set; }
+        public DateTimeOffset? CreatedOn { get; set; }
 
         [Column("UpdatedBY")]
         public string UpdatedBY { get; set; }
@@ -34,6 +37,8 @@ namespace Framework.DomainModels.Master
 
         [Column("IsActive")]
         public byte IsActive { get; set; }
-
     }
+
+
+
 }

@@ -48,5 +48,11 @@ namespace Framework.Services
             var response = new ServiceDataResponse<List<CountryMaster>>(await this.genericRepository.SearchList(searchcriteria, top, skip, cancellationToken).ConfigureAwait(false));
             return response;
         }
+       
+        public async Task<ServiceDataResponse<StateMaster>> SearchState(int id, CancellationToken cancellationToken)
+        {
+            var response = new ServiceDataResponse<StateMaster>(await this.genericRepository.SearchState(id, cancellationToken).ConfigureAwait(false));
+            return response;
+        }
     }
 }

@@ -15,5 +15,6 @@ namespace Framework.Services
         Task<ServiceDataResponse<string>> insert(CountryMaster _countryMaster, CancellationToken cancellationToken);
         Task<ServiceDataResponse<string>> update(CountryMaster _countryMaster, CancellationToken cancellationToken);
         Task<ServiceDataResponse<string>> delete(int id, CancellationToken cancellationToken);
+        Task<ServiceDataResponse<StateMaster>> SearchState(int id, CancellationToken cancellationToken);
     }
 }

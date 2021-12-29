@@ -104,5 +104,21 @@ namespace Framework.Web.API.Controllers
 
             return Ok(serviceResponse);
         }
+
+        [HttpGet]
+       // [Authorize]
+        [Route("selectstate")]
+        [ProducesResponseType(typeof(EntityPaginatedSet<string>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.Unauthorized)]
+        public async Task<ActionResult> selectstate([FromQuery] int id, [FromQuery] CancellationToken cancellationToken)
+        {
+
+            ServiceDataResponse<StateMaster> serviceResponse = await this.genericService
+                .SearchState(id, cancellationToken)
+                .ConfigureAwait(false);
+
+            return Ok(serviceResponse);
+        }
     }
 }

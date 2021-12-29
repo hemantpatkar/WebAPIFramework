@@ -1,5 +1,6 @@
 ﻿using Base.Exceptions;
 using Framework.DomainModels.Master;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -71,6 +72,19 @@ namespace Framework.Repositories
                 throw ex;
             }
         }
+        public async Task<StateMaster> SearchState(int id, CancellationToken cancellationToken)
+        {
+            try
+            {
+                StateMaster stateMaster = dbContext.stateMasters.Include(x=>x.CountryMaster).FirstOrDefault(x => x.ID == id);
+                return await Task.FromResult<StateMaster>(stateMaster);
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
 
         public async Task<List<CountryMaster>> SearchList(string log, int top, int skip, CancellationToken cancellationToken)
         {

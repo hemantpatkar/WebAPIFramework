@@ -12,5 +12,6 @@ namespace Framework.Repositories
         Task<string> insert(CountryMaster _countryMaster, CancellationToken cancellationToken);
         Task<string> update(CountryMaster _countryMaster, CancellationToken cancellationToken);
         Task<string> delete(int id, CancellationToken cancellationToken);
+        Task<StateMaster> SearchState(int id, CancellationToken cancellationToken);
     }
 }
